@@ -22,7 +22,7 @@ future_su = SYNERGY_UNITS['future']['class']()
 
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
-                    datefmt='%m/%d/%Y %H:%M:%S',
+                    datefmt='%Y-%m-%d %H:%M:%S',
                     level=logging.DEBUG)
 
 
@@ -36,7 +36,7 @@ def get_countries():
     return jsonify(countries)
 
 
-@app.get("/health")
+@app.get("/sugw/health")
 def get_health():
     LOG.info("Health check requested")
     health_report = [
