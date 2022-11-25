@@ -1,5 +1,5 @@
-from su.su_report import ReportSynergyUnit
-from su.su_explain import ExplainSynergyUnit
+from su_report import ReportSynergyUnit
+from su_explain import ExplainSynergyUnit
 
 
 class NullSynergyUnit(object):

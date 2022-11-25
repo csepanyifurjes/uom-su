@@ -1,7 +1,6 @@
 import logging
-import sqlite3
+import tutor
 
-from contextlib import closing
 from flask import Flask, jsonify
 
 
@@ -20,11 +19,17 @@ def get_health():
     return jsonify("UP")
 
 
+@app.get("/")
+def get_root():
+    LOG.info("Root call, redirecting...")
+    return app.redirect("/tutor/health")
+
+
 @app.get("/tutor/questions")
 def get_questions():
-    LOG.info("Available questions have been requested")
-    with closing(sqlite3.connect("../data/tutor_db.db")) as connection:
-        with closing(connection.cursor()) as cursor:
-            cursor.execute("SELECT * from questions")
-            return jsonify(cursor.fetchall())
+    LOG.info("Available questions have been requested...")
+    return jsonify(tutor.get_questions())
 
+
+if __name__ == '__main__':
+    app.run(host="localhost", port=3030, debug=True)

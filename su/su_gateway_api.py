@@ -1,7 +1,7 @@
 import logging
 
 from flask import Flask, jsonify
-from su.configuration import SYNERGY_UNITS
+from configuration import SYNERGY_UNITS
 
 LOG = logging.getLogger(__name__)
 
@@ -48,3 +48,13 @@ def get_health():
          }
     ]
     return jsonify(health_report)
+
+
+@app.get("/")
+def get_root():
+    LOG.info("Root call, redirecting...")
+    return app.redirect("/sugw/health")
+
+
+if __name__ == '__main__':
+    app.run(host="localhost", port=3033, debug=True)
