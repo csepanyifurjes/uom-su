@@ -1,7 +1,7 @@
 import logging
 
 from flask import Flask, jsonify
-from configuration import SYNERGY_UNITS
+from config import SYNERGY_UNITS
 
 LOG = logging.getLogger(__name__)
 

@@ -5,12 +5,12 @@ cur = con.cursor()
 cur.executescript("""
     create table questions(
         question_id,
-        question_text
+        question_text,
+        answer_text
     );
-   insert into questions values ( '1', 'How do you greet the customer?' );
-   insert into questions values ( '2', 'How do you modify the e-mail address of the customer?' );
-
-    """)
+   insert into questions values ( 1, 'How do you greet the customer?', 'Hello! How may I help you?' );
+   insert into questions values ( 2, 'What do you say before you finish the conversation with the customer?', 'What else can I help you with?');
+""")
 cur.execute("SELECT * from questions")
 print(cur.fetchall())
 con.commit()

@@ -1,7 +1,7 @@
 import logging
 import tutor
 
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 
 
 LOG = logging.getLogger(__name__)
@@ -29,6 +29,18 @@ def get_root():
 def get_questions():
     LOG.info("Available questions have been requested...")
     return jsonify(tutor.get_questions())
+
+
+@app.post("/tutor/evaluate")
+def evaluate_learners_answer():
+    if request.is_json:
+        learners_answer = request.get_json()
+        LOG.debug(learners_answer)
+        question_id = learners_answer["id"]
+        answer = learners_answer["answer"]
+        result = tutor.evaluate_learners_answer(question_id, answer)
+        return jsonify({"result": result}), 200
+    return {"error": "Request must be JSON"}, 415
 
 
 if __name__ == '__main__':
