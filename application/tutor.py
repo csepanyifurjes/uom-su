@@ -1,5 +1,6 @@
 import logging
 import sqlite3
+import uuid
 
 from contextlib import closing
 from sentence_transformers import SentenceTransformer, util
@@ -43,6 +44,19 @@ def get_answer(question_id):
             return answer
 
 
+def store_report(question_id, expected_answer, learners_answer, score):
+    report_external_id = uuid.uuid4()
+    sql_insert_report = f"INSERT INTO report(report_external_id," \
+                        f" question_id, expected_answer, learners_answer, score) VALUES ('{report_external_id}'," \
+                        f"{question_id}, '{expected_answer}', '{learners_answer}', {score})"
+
+    with closing(sqlite3.connect(DB)) as connection:
+        with closing(connection.cursor()) as cursor:
+            cursor.execute(sql_insert_report)
+            connection.commit()
+            return report_external_id
+
+
 def evaluate_learners_answer(question_id, learners_answer):
     LOG.debug("question_id: [%s] learners_answer: [%s]", question_id, learners_answer, exc_info=1)
     expected_answer = get_answer(question_id)
@@ -51,6 +65,7 @@ def evaluate_learners_answer(question_id, learners_answer):
         expected = MODEL.encode(expected_answer, convert_to_tensor=True)
         actual = MODEL.encode(learners_answer, convert_to_tensor=True)
         cosine_scores = util.pytorch_cos_sim(expected, actual)
-        return cosine_scores.item()
+        external_id = store_report(question_id, expected_answer, learners_answer, cosine_scores.item())
+        return external_id, cosine_scores.item()
     LOG.debug("The provided question_id does not exist in the database!")
-    return -1
+    return -1, -1

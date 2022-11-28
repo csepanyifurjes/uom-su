@@ -6,3 +6,4 @@ class ReportSynergyUnit(object):
 
     def get_health(self):
         return self.health
+
