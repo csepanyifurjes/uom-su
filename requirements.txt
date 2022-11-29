@@ -1,5 +1,6 @@
-flask
-sentence_transformers
-wordcloud
-matplotlib
-pandas
+flask~=2.2.2
+wordcloud~=1.8.2.2
+matplotlib~=3.6.2
+pandas~=1.5.2
+numpy~=1.23.5
+seaborn

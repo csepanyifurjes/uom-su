@@ -1,18 +1,6 @@
-from wordcloud import WordCloud, STOPWORDS
+from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-import pandas as pd
-
-
-def get_explanation(request_id):
-    wc = WordCloud(width=800, height=800,
-                   background_color='white',
-                   min_font_size=10).generate('apple')
-    # plot the WordCloud image
-    plt.figure(figsize=(8, 8), facecolor=None)
-    plt.imshow(wc)
-    plt.axis("off")
-    plt.tight_layout(pad=0)
-    plt.show()
+import matplotlib
 
 
 class ExplainSynergyUnit(object):
@@ -23,3 +11,15 @@ class ExplainSynergyUnit(object):
 
     def get_health(self):
         return self.health
+
+    def get_explanation(self):
+        matplotlib.use('agg')
+        wc = WordCloud(width=800, height=800,
+                       background_color='white',
+                       min_font_size=10).generate_from_text('apple apple apple apple apple banana')
+        # plot the WordCloud image
+        plt.figure(figsize=(8, 8), facecolor=None)
+        plt.imshow(wc)
+        plt.axis("off")
+        plt.tight_layout(pad=0)
+        return plt
