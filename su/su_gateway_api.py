@@ -57,10 +57,10 @@ def get_root():
     return app.redirect("/sugw/health")
 
 
-@app.route("/sugw/explain.png")
-def get_explanation():
-    LOG.info("Getting an explaining image...")
-    return nocache(img_response(explain_su.get_explanation()))
+@app.route("/sugw/<external_id>/explain.png")
+def get_explanation(external_id):
+    LOG.info("Getting an explaining image for the request: " + str(external_id))
+    return nocache(img_response(explain_su.get_explanation(external_id)))
 
 
 def img_response(plt_wc):
