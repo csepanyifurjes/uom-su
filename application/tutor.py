@@ -44,7 +44,7 @@ def get_answer(question_id):
             return answer
 
 
-def store_report(question_id, expected_answer, learners_answer, score):
+def persist_report(question_id, expected_answer, learners_answer, score):
     report_external_id = uuid.uuid4()
     sql_insert_report = f"INSERT INTO report(report_external_id," \
                         f" question_id, expected_answer, learners_answer, score) VALUES ('{report_external_id}'," \
@@ -57,6 +57,16 @@ def store_report(question_id, expected_answer, learners_answer, score):
             return report_external_id
 
 
+def get_grade(score):
+    sql_get_grade_by_score = f"SELECT grade_text FROM grade WHERE grade_group_id = 1 AND range_start <= {score}" \
+                             f" ORDER BY range_start DESC LIMIT 1"
+    LOG.debug("Executing: [%s]", sql_get_grade_by_score, exc_info=1)
+    with closing(sqlite3.connect(DB)) as connection:
+        with closing(connection.cursor()) as cursor:
+            cursor.execute(sql_get_grade_by_score)
+            return cursor.fetchone()
+
+
 def evaluate_learners_answer(question_id, learners_answer):
     LOG.debug("question_id: [%s] learners_answer: [%s]", question_id, learners_answer, exc_info=1)
     expected_answer = get_answer(question_id)
@@ -65,7 +75,7 @@ def evaluate_learners_answer(question_id, learners_answer):
         expected = MODEL.encode(expected_answer, convert_to_tensor=True)
         actual = MODEL.encode(learners_answer, convert_to_tensor=True)
         cosine_scores = util.pytorch_cos_sim(expected, actual)
-        external_id = store_report(question_id, expected_answer, learners_answer, cosine_scores.item())
-        return external_id, cosine_scores.item()
+        external_id = persist_report(question_id, expected_answer, learners_answer, cosine_scores.item())
+        return external_id, get_grade(cosine_scores.item())
     LOG.debug("The provided question_id does not exist in the database!")
-    return -1, -1
+    return -1, "unknown"

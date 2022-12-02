@@ -20,7 +20,7 @@ class ExplainSynergyUnit(object):
     def get_health(self):
         return self.HEALTH
 
-    def explain(self, expected_text, actual_text):
+    def explain(self, expected_text, actual_text, score):
         explanation = {}
         expected = self.model.encode(expected_text, convert_to_tensor=True)
         mask = "<pad>"
@@ -30,12 +30,12 @@ class ExplainSynergyUnit(object):
             LOG.debug("actual_masked: " + actual_masked)
             actual = self.model.encode(actual_masked, convert_to_tensor=True)
             cosine_scores = util.pytorch_cos_sim(expected, actual)
-            explanation[split] = cosine_scores.item()
+            explanation[split] = abs(score - cosine_scores.item()) * 100
         return explanation
 
     def get_explanation(self, external_id):
         report = self.report_su.get_report(external_id)
-        explanation = self.explain(report[4], report[5])
+        explanation = self.explain(report[4], report[5], report[6])
         LOG.debug(explanation)
         # {'alpha': 10.8, 'beta': 0.5, 'gamma': 0.01}
         matplotlib.use('agg')
