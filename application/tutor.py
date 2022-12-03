@@ -58,7 +58,8 @@ def persist_report(question_id, expected_answer, learners_answer, score):
 
 
 def get_grade(score):
-    sql_get_grade_by_score = f"SELECT grade_text FROM grade WHERE grade_group_id = 1 AND range_start <= {score}" \
+    sql_get_grade_by_score = f"SELECT grade_text FROM grade WHERE grade_group_id = (select config_value from config " \
+                             f"where config_key = 'grade_group') AND range_start <= {score}" \
                              f" ORDER BY range_start DESC LIMIT 1"
     LOG.debug("Executing: [%s]", sql_get_grade_by_score, exc_info=1)
     with closing(sqlite3.connect(DB)) as connection:

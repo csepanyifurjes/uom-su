@@ -23,7 +23,7 @@ cur.executescript("""
         FOREIGN KEY (question_id) REFERENCES questions (question_id)
     );
 
-    create TABLE grade(
+    CREATE TABLE grade(
         grade_id INTEGER PRIMARY KEY AUTOINCREMENT,
         grade_group_id INTEGER NOT NULL,
         range_start FLOAT NOT NULL,
@@ -42,6 +42,13 @@ cur.executescript("""
     INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (3, 0.55, "C");
     INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (3, 0.5, "D");
     INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (3, 0.0, "F");
+    
+    CREATE TABLE config(
+        config_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        config_key TEXT NOT NULL UNIQUE,
+        config_value TEXT NOT NULL
+    );
+    INSERT INTO config (config_key, config_value) VALUES ("grade_group", "1");
     
 """)
 cur.execute("SELECT * from questions")

@@ -8,6 +8,7 @@ from sentence_transformers import SentenceTransformer, util
 
 LOG = logging.getLogger(__name__)
 
+
 class ExplainSynergyUnit(object):
     """ Responsible for providing explanation of the executed tasks """
 

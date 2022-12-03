@@ -6,7 +6,7 @@ LOG = logging.getLogger(__name__)
 
 
 class ReportSynergyUnit(object):
-    """ Responsible for providing information about the executed tasks """
+    """ Responsible for providing information about the executed tasks as well as some statistical data"""
 
     def __init__(self):
         self.HEALTH = "UP"
