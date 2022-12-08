@@ -39,16 +39,21 @@ def get_answer(question_id):
     with closing(sqlite3.connect(DB)) as connection:
         with closing(connection.cursor()) as cursor:
             cursor.execute(sql_get_answer_by_id)
-            answer = cursor.fetchone()[0]
+            result = cursor.fetchone()
+            if not result:
+                raise sqlite3.DataError('The provided question id can not be found in DB!')
+            answer = result[0]
             LOG.debug(answer)
             return answer
 
 
-def persist_report(question_id, expected_answer, learners_answer, score):
+def persist_report(question_id, expected_answer, learners_answer, score, client_info, grade_group_id, grade_text):
     report_external_id = uuid.uuid4()
     sql_insert_report = f"INSERT INTO report(report_external_id," \
-                        f" question_id, expected_answer, learners_answer, score) VALUES ('{report_external_id}'," \
-                        f"{question_id}, '{expected_answer}', '{learners_answer}', {score})"
+                        f" question_id, expected_answer, learners_answer, score, client_info, grade_group_id,  " \
+                        f"grade_text) VALUES ('{report_external_id}'," \
+                        f"{question_id}, '{expected_answer}', '{learners_answer}', {score}, '{client_info}', " \
+                        f"{grade_group_id}, '{grade_text}')"
 
     with closing(sqlite3.connect(DB)) as connection:
         with closing(connection.cursor()) as cursor:
@@ -58,7 +63,8 @@ def persist_report(question_id, expected_answer, learners_answer, score):
 
 
 def get_grade(score):
-    sql_get_grade_by_score = f"SELECT grade_text FROM grade WHERE grade_group_id = (select config_value from config " \
+    sql_get_grade_by_score = f"SELECT grade_group_id, grade_text FROM grade WHERE grade_group_id = " \
+                             f"(select config_value from config " \
                              f"where config_key = 'grade_group') AND range_start <= {score}" \
                              f" ORDER BY range_start DESC LIMIT 1"
     LOG.debug("Executing: [%s]", sql_get_grade_by_score, exc_info=1)
@@ -68,15 +74,20 @@ def get_grade(score):
             return cursor.fetchone()
 
 
-def evaluate_learners_answer(question_id, learners_answer):
+def evaluate_learners_answer(question_id, learners_answer, client_info):
     LOG.debug("question_id: [%s] learners_answer: [%s]", question_id, learners_answer, exc_info=1)
-    expected_answer = get_answer(question_id)
+    try:
+        expected_answer = get_answer(question_id)
+    except sqlite3.DataError as e:
+        raise ValueError("Can not evaluate learner's answer: " + e.args[0])
     if expected_answer != "":
         LOG.debug("Expected: [%s] Actual: [%s]", expected_answer, learners_answer, exc_info=1)
         expected = MODEL.encode(expected_answer, convert_to_tensor=True)
         actual = MODEL.encode(learners_answer, convert_to_tensor=True)
         cosine_scores = util.pytorch_cos_sim(expected, actual)
-        external_id = persist_report(question_id, expected_answer, learners_answer, cosine_scores.item())
-        return external_id, get_grade(cosine_scores.item())
+        grade_group_id, grade_text = get_grade(cosine_scores.item())
+        external_id = persist_report(question_id, expected_answer, learners_answer, cosine_scores.item(),
+                                     client_info, grade_group_id, grade_text)
+        return external_id, grade_text
     LOG.debug("The provided question_id does not exist in the database!")
     return -1, "unknown"

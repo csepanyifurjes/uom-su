@@ -44,7 +44,11 @@ def get_root():
 @app.route("/sugw/<external_id>/explain.png")
 def get_explanation(external_id):
     LOG.info("Getting an explaining image for the request: " + str(external_id))
-    return _nocache(_img_response(explain_su.get_explanation(external_id)))
+    try:
+        result = explain_su.get_explanation(external_id)
+    except ValueError as e:
+        return jsonify(e.args[0])
+    return _nocache(_img_response(result))
 
 
 @app.put("/sugw/control/<grade_group>")

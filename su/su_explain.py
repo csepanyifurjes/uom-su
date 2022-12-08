@@ -1,4 +1,6 @@
 import logging
+import sqlite3
+
 import matplotlib.pyplot as plt
 import matplotlib
 
@@ -35,10 +37,12 @@ class ExplainSynergyUnit(object):
         return explanation
 
     def get_explanation(self, external_id):
-        report = self.report_su.get_report(external_id)
+        try:
+            report = self.report_su.get_report(external_id)
+        except sqlite3.DataError as e:
+            raise ValueError('Error while generating explanation: ' + str(e.args[0]))
         explanation = self.explain(report[4], report[5], report[6])
         LOG.debug(explanation)
-        # {'alpha': 10.8, 'beta': 0.5, 'gamma': 0.01}
         matplotlib.use('agg')
         wc = WordCloud(width=800, height=800,
                        background_color='white',

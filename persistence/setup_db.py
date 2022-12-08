@@ -20,6 +20,10 @@ cur.executescript("""
         expected_answer TEXT NOT NULL,
         learners_answer TEXT NOT NULL ,
         score FLOAT NOT NULL,
+        client_info TEXT,
+        grade_group_id INTEGER NOT NULL,
+        grade_text TEXT NOT NULL,
+        
         FOREIGN KEY (question_id) REFERENCES questions (question_id)
     );
 

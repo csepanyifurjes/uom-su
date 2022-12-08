@@ -38,7 +38,11 @@ def evaluate_learners_answer():
         LOG.debug(learners_answer)
         question_id = learners_answer["id"]
         answer = learners_answer["answer"]
-        result = tutor.evaluate_learners_answer(question_id, answer)
+        client_info = request.headers.get("User-Agent")
+        try:
+            result = tutor.evaluate_learners_answer(question_id, answer, client_info)
+        except ValueError as e:
+            return jsonify(e.args[0])
         return jsonify({"result": result}), 200
     return {"error": "Request must be JSON"}, 415
 

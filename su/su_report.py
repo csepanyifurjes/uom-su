@@ -23,4 +23,6 @@ class ReportSynergyUnit(object):
                 cursor.execute(sql_get_report_by_external_id)
                 report = cursor.fetchone()
                 LOG.debug(report)
+                if not report:
+                    raise sqlite3.DataError('The provided external_id can not be found in DB!')
                 return report
