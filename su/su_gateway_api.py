@@ -51,6 +51,16 @@ def get_explanation(external_id):
     return _nocache(_img_response(result))
 
 
+@app.get("/sugw/report")
+def get_report():
+    LOG.info("Getting statistical information from DB.")
+    try:
+        result = report_su.get_stat()
+    except ValueError as e:
+        return jsonify(e.args[0]), 204
+    return jsonify(result), 200
+
+
 @app.put("/sugw/control/<grade_group>")
 def control(grade_group):
     LOG.info("Switching the grading behaviour of the system to: " + grade_group)
