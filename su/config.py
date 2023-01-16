@@ -1,6 +1,7 @@
-from su_report import ReportSynergyUnit
-from su_explain import ExplainSynergyUnit
 from su_control import ControlSynergyUnit
+from su_explain import ExplainSynergyUnit
+from su_report import ReportSynergyUnit
+from su_teach import TeachSynergyUnit
 
 
 class NullSynergyUnit(object):
@@ -24,7 +25,7 @@ SYNERGY_UNITS = {
         'class': ControlSynergyUnit
     },
     'teach': {
-        'class': NullSynergyUnit
+        'class': TeachSynergyUnit
     },
     'future': {
         'class': NullSynergyUnit

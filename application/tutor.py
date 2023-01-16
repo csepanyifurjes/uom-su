@@ -49,12 +49,13 @@ def get_answer(question_id):
 
 def persist_report(question_id, expected_answer, learners_answer, score, client_info, grade_group_id, grade_text):
     report_external_id = uuid.uuid4()
+    learners_answer = learners_answer.replace("'", "`")
     sql_insert_report = f"INSERT INTO report(report_external_id," \
                         f" question_id, expected_answer, learners_answer, score, client_info, grade_group_id,  " \
                         f"grade_text) VALUES ('{report_external_id}'," \
                         f"{question_id}, '{expected_answer}', '{learners_answer}', {score}, '{client_info}', " \
                         f"{grade_group_id}, '{grade_text}')"
-
+    LOG.debug("Executing: [%s]", sql_insert_report, exc_info=1)
     with closing(sqlite3.connect(DB)) as connection:
         with closing(connection.cursor()) as cursor:
             cursor.execute(sql_insert_report)

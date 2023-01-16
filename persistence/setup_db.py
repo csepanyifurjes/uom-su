@@ -11,6 +11,8 @@ cur.executescript("""
     INSERT INTO questions VALUES ( 1, 'How do you greet the customer?', 'Hello! How may I help you?' );
     INSERT INTO questions VALUES ( 2, 'What do you say before you finish the conversation with the customer?', 
         'What else can I help you with?');
+    INSERT INTO questions VALUES ( 3, 'What do the initials HAL for the HAL 9000 computer mean in "A Space Odyssey" film?', 
+        'Heuristically programmed Algorithmic computer');
 
     CREATE TABLE report(
         report_id INTEGER PRIMARY KEY AUTOINCREMENT,

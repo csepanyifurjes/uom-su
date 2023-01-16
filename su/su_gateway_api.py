@@ -51,6 +51,16 @@ def get_explanation(external_id):
     return _nocache(_img_response(result))
 
 
+@app.route("/sugw/<external_id>/teach.png")
+def get_teaching_information(external_id):
+    LOG.info("Getting a teaching image for the request: " + str(external_id))
+    try:
+        result = teach_su.get_teaching_information(external_id)
+    except ValueError as e:
+        return jsonify(e.args[0])
+    return _nocache(_img_response(result))
+
+
 @app.get("/sugw/report")
 def get_report():
     LOG.info("Getting statistical information from DB.")
