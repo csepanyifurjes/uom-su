@@ -35,5 +35,5 @@ http://localhost:3030/tutor/evaluate
 To see the explanation word cloud use the UUID from the response: 
 http://localhost:3033/sugw/9e6f464c-20b3-4125-83c5-0ee7bd1e11a6/explain.png
 
-######Please cite this paper: 
+###### Please cite this paper: 
 L. Csépányi-Fürjes, Controllable and explainable AI framework in the Automatic Assessment domain, 2023
