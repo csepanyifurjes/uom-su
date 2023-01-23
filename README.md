@@ -2,7 +2,7 @@
 University of Miskolc, Synergy Unit research within the field of Human Centered Artificial Intelligence
 
 1. To set up the test DB file execute: persistence/setup_db.py
-2. Start up the application execute: run.sh
+2. To start up the application execute: run.sh
 
 The Automatic Assessment Tutor application will listen on local port: 3030
 The Synergy Unit gateway will listen on local port: 3033
