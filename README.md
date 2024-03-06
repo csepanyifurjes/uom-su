@@ -85,3 +85,5 @@ http://localhost:3033/sugw/9e6f464c-20b3-4125-83c5-0ee7bd1e11a6/teach.png
 
 ###### Please cite this paper: 
 L. Csépányi-Fürjes, Controllable and explainable AI framework in the Automatic Assessment domain, 2023
+
+The related paper: https://www.researchgate.net/publication/373873415_Controllable_and_explainable_AI_framework_in_the_Automatic_Assessment_domain
