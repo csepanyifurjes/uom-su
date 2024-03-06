@@ -32,6 +32,13 @@ http://localhost:3030/tutor/evaluate
     "id": 3,
     "answer": "Heuristically programmed Idontknow computer"
 }
+
+{
+    "id": 1,
+    "answer": "Do you have a problem?"
+}
+
+
 ```
 ###### Response:
 ```
@@ -39,6 +46,13 @@ http://localhost:3030/tutor/evaluate
     "result": [
         "9e6f464c-20b3-4125-83c5-0ee7bd1e11a6",
         "NOT OK"
+    ]
+}
+
+{
+    "result": [
+        "599471d5-185b-43a6-87e1-f920ec93c856",
+        "unacceptable, try again"
     ]
 }
 ```
