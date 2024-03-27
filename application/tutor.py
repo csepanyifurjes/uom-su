@@ -89,6 +89,6 @@ def evaluate_learners_answer(question_id, learners_answer, client_info):
         grade_group_id, grade_text = get_grade(cosine_scores.item())
         external_id = persist_report(question_id, expected_answer, learners_answer, cosine_scores.item(),
                                      client_info, grade_group_id, grade_text)
-        return external_id, grade_text
+        return external_id, grade_text, cosine_scores.item()
     LOG.debug("The provided question_id does not exist in the database!")
     return -1, "unknown"
