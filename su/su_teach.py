@@ -12,6 +12,14 @@ from sentence_transformers import SentenceTransformer, util
 LOG = logging.getLogger(__name__)
 
 
+def remove_stopwords(text):
+    stopwords = ['is', 'a', 'at', 'and', 'of']
+    words = text.split()
+    result_words = [word for word in words if word.lower() not in stopwords]
+    result = ' '.join(result_words)
+    return result
+
+
 class TeachSynergyUnit(object):
     """ Responsible for teaching the users of the system"""
 
@@ -26,6 +34,8 @@ class TeachSynergyUnit(object):
 
     def teach(self, expected_text, actual_text):
         teaching = {}
+        expected_text = remove_stopwords(expected_text)
+        actual_text = remove_stopwords(actual_text)
         expected = self.model.encode(expected_text, convert_to_tensor=True)
         mask = "<pad>"
         splits = str.split(actual_text)
@@ -43,6 +53,8 @@ class TeachSynergyUnit(object):
         except sqlite3.DataError as e:
             raise ValueError('Error while generating teaching: ' + str(e.args[0]))
         teaching = self.teach(report[4], report[4])
+        LOG.debug(teaching)
+        teaching = dict(sorted(teaching.items(), key=lambda item: item[1], reverse=True)[:int(len(teaching)/4)])
         LOG.debug(teaching)
         matplotlib.use('agg')
         wc = WordCloud(width=400, height=400,
