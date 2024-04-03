@@ -13,7 +13,7 @@ LOG = logging.getLogger(__name__)
 
 
 def remove_stopwords(text):
-    stopwords = ['is', 'a', 'at', 'and', 'of']
+    stopwords = ['is', 'a', 'at', 'and', 'of', 'és', 'az']
     words = text.split()
     result_words = [word for word in words if word.lower() not in stopwords]
     result = ' '.join(result_words)
@@ -27,7 +27,8 @@ class TeachSynergyUnit(object):
         self.HEALTH = "UP"
         self.DB = "data/tutor_db.db"
         self.report_su = ReportSynergyUnit()
-        self.model = SentenceTransformer('stsb-roberta-large')
+        # self.model = SentenceTransformer('stsb-roberta-large')
+        self.model = SentenceTransformer('NYTK/sentence-transformers-experimental-hubert-hungarian')
 
     def get_health(self):
         return self.HEALTH
@@ -54,7 +55,7 @@ class TeachSynergyUnit(object):
             raise ValueError('Error while generating teaching: ' + str(e.args[0]))
         teaching = self.teach(report[4], report[4])
         LOG.debug(teaching)
-        teaching = dict(sorted(teaching.items(), key=lambda item: item[1], reverse=True)[:int(len(teaching)/4)])
+        teaching = dict(sorted(teaching.items(), key=lambda item: item[1], reverse=True)[:int(len(teaching)/2)])
         LOG.debug(teaching)
         matplotlib.use('agg')
         wc = WordCloud(width=400, height=400,

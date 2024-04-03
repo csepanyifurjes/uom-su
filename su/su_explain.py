@@ -18,7 +18,8 @@ class ExplainSynergyUnit(object):
         self.HEALTH = "UP"
         self.DB = "data/tutor_db.db"
         self.report_su = ReportSynergyUnit()
-        self.model = SentenceTransformer('stsb-roberta-large')
+        # self.model = SentenceTransformer('stsb-roberta-large')
+        self.model = SentenceTransformer('NYTK/sentence-transformers-experimental-hubert-hungarian')
 
     def get_health(self):
         return self.HEALTH
