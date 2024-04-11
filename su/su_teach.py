@@ -13,7 +13,7 @@ LOG = logging.getLogger(__name__)
 
 
 def remove_stopwords(text):
-    stopwords = ['is', 'a', 'at', 'and', 'of', 'és', 'az']
+    stopwords = ['is', 'a', 'at', 'and', 'of', 'és', 'az', ',', '.', '?']
     words = text.split()
     result_words = [word for word in words if word.lower() not in stopwords]
     result = ' '.join(result_words)

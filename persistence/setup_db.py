@@ -13,6 +13,13 @@ cur.executescript("""
         'What else can I help you with?');
     INSERT INTO questions VALUES ( 3, 'What do the initials HAL for the HAL 9000 computer mean in "A Space Odyssey" film?', 
         'Heuristically programmed Algorithmic computer');
+    INSERT INTO questions VALUES ( 4, 'List the most important elements of a computer!', 'Processor, keyboard, mouse.');
+    INSERT INTO questions VALUES ( 5, 'Which components have caused the biggest change in computing in the last 20 years?', 'Processor, graphical processing unit, solid-state drive');
+    INSERT INTO questions VALUES ( 6, 'Sum this text up in 1 sentence: A computer is an electronic device designed to process and store data, perform calculations, and execute predefined instructions. It consists of hardware components such as a central processing unit (CPU), memory, storage devices, input devices (like keyboard and mouse), and output devices (such as monitor and printer). Computers operate based on binary code, using combinations of ones and zeros to represent data and instructions. They can run various software programs, allowing users to perform tasks ranging from basic word processing to complex simulations and calculations.', 'A computer is a versatile electronic device that processes data using binary code and executes instructions to perform a wide range of tasks, facilitated by its hardware components and software programs.');
+    INSERT INTO questions VALUES ( 7, 'Egy elképzelt szituációban hogyan üdvözli az ügyfelet? Legyen kedves, érdeklődő és segítőkész.', 'üdvözlöm örülök hogy megkeresett minket segíthetek önnek segíthetek jó napot');
+    INSERT INTO questions VALUES ( 8, 'Hogyan utasít el udvariasan egy holnapra tervezett találkozót?', 'sajnálom de nem tudok segíteni holnap már van programom');
+    INSERT INTO questions VALUES ( 9, 'Definiálja a számítógép fogalmát!', 'elektronikus információfeldolgozó gép amely információk adatok és programok tárolására alkalmas memóriával rendelkezik az adatok feldolgozásához programot használ és saját működését vezérli');
+    INSERT INTO questions VALUES ( 10, 'Röviden fogalmazza meg, mit értünk számítógép-programozás alatt!', 'absztrakt algoritmusok megvalósítását jelenti egy bizonyos programozási nyelven'); 
 
     CREATE TABLE report(
         report_id INTEGER PRIMARY KEY AUTOINCREMENT,
