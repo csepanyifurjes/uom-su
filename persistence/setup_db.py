@@ -42,12 +42,12 @@ cur.executescript("""
         range_start FLOAT NOT NULL,
         grade_text TEXT NOT NULL 
     );
-    INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (1, 1, "perfect match");
+    INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (1, 1, "perfect");
     INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (1, 0.8, "very good");
     INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (1, 0.65, "good");
-    INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (1, 0.55, "try to get even better");
-    INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (1, 0.5, "try to get better");
-    INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (1, 0.0, "unacceptable, try again");
+    INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (1, 0.55, "almost there");
+    INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (1, 0.5, "getting closer");
+    INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (1, 0.0, "unacceptable");
     INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (2, 0.7, "OK");
     INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (2, 0.0, "NOT OK");
     INSERT INTO grade (grade_group_id, range_start, grade_text) VALUES (3, 0.8, "A");
